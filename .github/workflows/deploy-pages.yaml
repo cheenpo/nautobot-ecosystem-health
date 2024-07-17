@@ -1,3 +1,4 @@
+---
 name: Deploy static content to Pages
 
 on:
@@ -25,16 +26,16 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: "${{ steps.deployment.outputs.page_url }}"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: "actions/checkout@v4"
       # Build HTML
       - name: "Set up Python"
-        - uses: actions/setup-python@v5
-          with:
-            python-version: "3.11"
+        uses: "actions/setup-python@v5"
+        with:
+          python-version: "3.11"
       - name: "Install Python Packages"
         run: "pip install poetry"
       - name: "Install Dependencies"
@@ -47,7 +48,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './output/'
+          path: "./output/"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
