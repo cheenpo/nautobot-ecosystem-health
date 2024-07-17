@@ -1,3 +1,21 @@
 ---
 hello:
   world: "Nautobot Ecosystem!"
+
+
+apps:
+  - "bgp-models"
+  - "capacity-metrics"
+  - "chatops"
+  - "circuit-maintenance"
+  - "data-validation-engine"
+  - "dev-example"
+  - "device-lifecycle-mgmt"
+  - "device-onboarding"
+  - "firewall-models"
+  - "floor-plan"
+  - "golden-config"
+  - "netbox-importer"
+  - "secrets-providers"
+  - "ssot"
+  - "welcome-wizard"
