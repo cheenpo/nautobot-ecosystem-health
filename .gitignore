@@ -1,0 +1,9 @@
+output
+venv
+
+*.pyc
+*.swp
+**/dist/
+.DS_Store
+.vscode
+*.env
