@@ -1,49 +1,87 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>Nautobot Ecosystem Status</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <style>
+        .anchor-link {
+            padding: 0 .175rem;
+            font-weight: 400;
+            color: rgba(13, 110, 253, 0.5);
+            text-decoration: none;
+            opacity: 0;
+            transition: color 0.15s ease-in-out, opacity 0.15s ease-in-out
+        }
+
+        .anchor-link::after {
+            content: "#"
+        }
+
+        .anchor-link:focus,
+        .anchor-link:hover,
+        :hover>.anchor-link,
+        :target>.anchor-link {
+            color: #0d6efd;
+            text-decoration: none;
+            opacity: 1
+        }
+    </style>
 </head>
 </head>
 
 <body>
+    <div class="container">
+        <h2 id="badges">Status Badges <a class="anchor-link" href="#badges"
+                aria-label="Link to this section: Status Badges"></a></h2>
 
-    <h1>{{ hello.world }}</h1>
+        <p>Live status badges loaded from GitHub and ReadTheDocs.</p>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>App Name</th>
-                <th>Upstream Testing Status</th>
-                <th>Docs Status</th>
-            </tr>
-        </thead>
-        <tbody class="table-striped">
-            {% for app in apps %}
-            <tr>
-                <td>{{ app }}</td>
-                <td>
-                    <a href="https://github.com/nautobot/nautobot-app-{{ app }}/actions/workflows/upstream_testing.yml">
-                        <img
-                            src="https://github.com/nautobot/nautobot-app-{{ app }}/actions/workflows/upstream_testing.yml/badge.svg">
-                    </a>
-                </td>
-                <td>
-                    <a href="https://docs.nautobot.com/projects/{{ app }}/en/latest/"><img
-                            src="https://readthedocs.org/projects/nautobot-plugin-{{ app }}/badge/"></a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-</body>
+        <table class="table table-sm table-hover">
+            <thead>
+                <tr>
+                    <th>App Name</th>
+                    <th>Upstream Testing Status</th>
+                    <th>Docs/develop</th>
+                    <th>Docs/main</th>
+                    <th>Docs/ltm-1.6</th>
+                </tr>
+            </thead>
+            <tbody class="table-striped table-group-divider">
+                {% for app in apps %}
+                <tr>
+                    <td>{{ app }}</td>
+                    <td>
+                        <a
+                            href="https://github.com/nautobot/nautobot-app-{{ app }}/actions/workflows/upstream_testing.yml">
+                            <img
+                                src="https://github.com/nautobot/nautobot-app-{{ app }}/actions/workflows/upstream_testing.yml/badge.svg">
+                        </a>
+                    </td>
+                    <td>
+                        <a href="https://readthedocs.org/projects/nautobot-plugin-{{ app }}/builds/"><img
+                                src="https://readthedocs.org/projects/nautobot-plugin-{{ app }}/badge/?version=latest"></a>
+                    </td>
+                    <td>
+                        <a href="https://readthedocs.org/projects/nautobot-plugin-{{ app }}/builds/"><img
+                                src="https://readthedocs.org/projects/nautobot-plugin-{{ app }}/badge/?version=stable"></a>
+                    </td>
+                    <td>
+                        <a href="https://readthedocs.org/projects/nautobot-plugin-{{ app }}/builds/"><img
+                                src="https://readthedocs.org/projects/nautobot-plugin-{{ app }}/badge/?version=ltm-1.6"></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+    </div>
 </body>
 
 </html>
