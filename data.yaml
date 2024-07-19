@@ -1,8 +1,4 @@
 ---
-hello:
-  world: "Nautobot Ecosystem!"
-
-
 apps:
   - "bgp-models"
   - "capacity-metrics"
@@ -12,10 +8,19 @@ apps:
   - "dev-example"
   - "device-lifecycle-mgmt"
   - "device-onboarding"
+  - "design-builder"
   - "firewall-models"
   - "floor-plan"
   - "golden-config"
   - "netbox-importer"
+  - "nornir"
   - "secrets-providers"
   - "ssot"
   - "welcome-wizard"
+  # nornir plugin
+
+projects:
+  - "pynautobot"
+  # - "nautobot-ansible"
+  # - "nornir-nautobot"
+  # pyntc, jdiff, netutils, diffsync

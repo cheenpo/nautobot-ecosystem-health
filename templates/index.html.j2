@@ -39,13 +39,16 @@
         <h2 id="badges">Status Badges <a class="anchor-link" href="#badges"
                 aria-label="Link to this section: Status Badges"></a></h2>
 
-        <p>Live status badges loaded from GitHub and ReadTheDocs.</p>
+        <p>Live status badges loaded from GitHub, Shields.io, and ReadTheDocs.</p>
 
         <table class="table table-sm table-hover">
             <thead>
                 <tr>
                     <th>App Name</th>
-                    <th>Upstream Testing Status</th>
+                    <th>Upstream Testing</th>
+                    <th>PyPI Version</th>
+                    <th>Commits Since</th>
+                    <th>Release Date</th>
                     <th>Docs/develop</th>
                     <th>Docs/main</th>
                     <th>Docs/ltm-1.6</th>
@@ -62,6 +65,15 @@
                                 src="https://github.com/nautobot/nautobot-app-{{ app }}/actions/workflows/upstream_testing.yml/badge.svg">
                         </a>
                     </td>
+                    <td><img src="https://img.shields.io/pypi/v/nautobot-{{ app }}">
+                    {# this could be a test if the GH release exists on pypi #}
+                    </td>
+                    <td><img
+                            src="https://img.shields.io/github/commits-since/nautobot/nautobot-app-{{ app }}/latest/develop">
+                    </td>
+                    <td><img
+                            src="https://img.shields.io/github/release-date/nautobot/nautobot-app-{{ app }}?display_date=published_at">
+                    </td>
                     <td>
                         <a href="https://readthedocs.org/projects/nautobot-plugin-{{ app }}/builds/"><img
                                 src="https://readthedocs.org/projects/nautobot-plugin-{{ app }}/badge/?version=latest"></a>
@@ -73,6 +85,36 @@
                     <td>
                         <a href="https://readthedocs.org/projects/nautobot-plugin-{{ app }}/builds/"><img
                                 src="https://readthedocs.org/projects/nautobot-plugin-{{ app }}/badge/?version=ltm-1.6"></a>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% for project in projects %}
+                <tr>
+                    <td>{{ project }}</td>
+                    <td>
+                        <a href="https://github.com/nautobot/{{ project }}/actions/workflows/upstream_testing.yml">
+                            <img
+                                src="https://github.com/nautobot/{{ project }}/actions/workflows/upstream_testing.yml/badge.svg">
+                        </a>
+                    </td>
+                    <td><img src="https://img.shields.io/pypi/v/{{ project }}">
+                        {# this could be a test if the GH release exists on pypi #}
+                    </td>
+                    <td><img src="https://img.shields.io/github/commits-since/nautobot/{{ project }}/latest/develop">
+                    </td>
+                    <td><img src="https://img.shields.io/github/release-date/nautobot/{{ project }}?display_date=published_at">
+                    </td>
+                    <td>
+                        <a href="https://readthedocs.org/projects/{{ project }}/builds/"><img
+                                src="https://readthedocs.org/projects/{{ project }}/badge/?version=latest"></a>
+                    </td>
+                    <td>
+                        <a href="https://readthedocs.org/projects/{{ project }}/builds/"><img
+                                src="https://readthedocs.org/projects/{{ project }}/badge/?version=stable"></a>
+                    </td>
+                    <td>
+                        <a href="https://readthedocs.org/projects/{{ project }}/builds/"><img
+                                src="https://readthedocs.org/projects/{{ project }}/badge/?version=ltm-1.6"></a>
                     </td>
                 </tr>
                 {% endfor %}
