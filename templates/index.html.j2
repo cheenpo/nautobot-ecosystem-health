@@ -7,66 +7,112 @@
     <title>Nautobot Ecosystem Status</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
+    <style>
+        .nav-link {
+            color: var(--bs-secondary-color);
+        }
+
+        .nav-link:hover {
+            color: var(--bs-nav-tabs-link-active-color);
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
-        <h2 id="badges">Status Badges
-            <small class="badge text-bg-success">Live</small>
-        </h2>
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="badges" data-bs-toggle="tab" data-bs-target="#badges-pane"
+                            type="button" role="tab" aria-controls="badges-pane" aria-selected="true">
+                            <h3><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-lightning-fill text-success" viewBox="0 0 16 16">
+                                    <path
+                                        d="M5.52.359A.5.5 0 0 1 6 0h4a.5.5 0 0 1 .474.658L8.694 6H12.5a.5.5 0 0 1 .395.807l-7 9a.5.5 0 0 1-.873-.454L6.823 9.5H3.5a.5.5 0 0 1-.48-.641z" />
+                                </svg>
+                                Status Badges</h3>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="details" data-bs-toggle="tab" data-bs-target="#details-pane"
+                            type="button" role="tab" aria-controls="details-pane" aria-selected="false">
+                            <h3>Details</h3>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-content" id="TabContent">
+                <div class="tab-pane fade show active" id="badges-pane" role="tabpanel" aria-labelledby="badges"
+                    tabindex="0">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th>App Name</th>
+                                <th>Upstream Testing</th>
+                                <th>PyPI Version</th>
+                                <th>Commits Since</th>
+                                <th>Release Date</th>
+                                <th>Docs/develop</th>
+                                <th>Docs/main</th>
+                                <th>Docs/ltm-1.6</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-striped table-group-divider">
+                            {% for p in nautobot_projects %}
+                            <tr>
+                                <td><a href="https://github.com/{{ p['org'] }}/{{ p['repo'] }}"
+                                        class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">{{
+                                        p['name'] }}</a></td>
+                                <td>
+                                    <a
+                                        href="https://github.com/{{ p['org'] }}/{{ p['repo'] }}/actions/workflows/upstream_testing.yml">
+                                        <img
+                                            src="https://github.com/{{ p['org'] }}/{{ p['repo'] }}/actions/workflows/upstream_testing.yml/badge.svg">
+                                    </a>
+                                </td>
+                                <td><img src="https://img.shields.io/pypi/v/{{ p['pypi'] }}">
+                                    {# this could be a test if the GH release exists on pypi #}
+                                </td>
+                                <td><img
+                                        src="https://img.shields.io/github/commits-since/{{ p['org'] }}/{{ p['repo'] }}/latest/develop">
+                                </td>
+                                <td><img
+                                        src="https://img.shields.io/github/release-date/{{ p['org'] }}/{{ p['repo'] }}?display_date=published_at">
+                                </td>
+                                <td>
+                                    <a href="https://readthedocs.org/projects/{{ p['rtd'] }}/builds/"><img
+                                            src="https://readthedocs.org/projects/{{ p['rtd'] }}/badge/?version=latest"></a>
+                                </td>
+                                <td>
+                                    <a href="https://readthedocs.org/projects/{{ p['rtd'] }}/builds/"><img
+                                            src="https://readthedocs.org/projects/{{ p['rtd'] }}/badge/?version=stable"></a>
+                                </td>
+                                <td>
+                                    <a href="https://readthedocs.org/projects/{{ p['rtd'] }}/builds/"><img
+                                            src="https://readthedocs.org/projects/{{ p['rtd'] }}/badge/?version=ltm-1.6"></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <p class="card-text"><small class="text-body-secondary">Loaded live on refresh from GitHub, Shields.io, and ReadTheDocs.</small></p>
 
-        <table class="table table-sm table-hover">
-            <thead>
-                <tr>
-                    <th>App Name</th>
-                    <th>Upstream Testing</th>
-                    <th>PyPI Version</th>
-                    <th>Commits Since</th>
-                    <th>Release Date</th>
-                    <th>Docs/develop</th>
-                    <th>Docs/main</th>
-                    <th>Docs/ltm-1.6</th>
-                </tr>
-            </thead>
-            <tbody class="table-striped table-group-divider">
-                {% for p in nautobot_projects %}
-                <tr>
-                    <td><a href="https://github.com/{{ p['org'] }}/{{ p['repo'] }}"
-                            class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">{{
-                            p['name'] }}</a></td>
-                    <td>
-                        <a
-                            href="https://github.com/{{ p['org'] }}/{{ p['repo'] }}/actions/workflows/upstream_testing.yml">
-                            <img
-                                src="https://github.com/{{ p['org'] }}/{{ p['repo'] }}/actions/workflows/upstream_testing.yml/badge.svg">
-                        </a>
-                    </td>
-                    <td><img src="https://img.shields.io/pypi/v/{{ p['pypi'] }}">
-                        {# this could be a test if the GH release exists on pypi #}
-                    </td>
-                    <td><img
-                            src="https://img.shields.io/github/commits-since/{{ p['org'] }}/{{ p['repo'] }}/latest/develop">
-                    </td>
-                    <td><img
-                            src="https://img.shields.io/github/release-date/{{ p['org'] }}/{{ p['repo'] }}?display_date=published_at">
-                    </td>
-                    <td>
-                        <a href="https://readthedocs.org/projects/{{ p['rtd'] }}/builds/"><img
-                                src="https://readthedocs.org/projects/{{ p['rtd'] }}/badge/?version=latest"></a>
-                    </td>
-                    <td>
-                        <a href="https://readthedocs.org/projects/{{ p['rtd'] }}/builds/"><img
-                                src="https://readthedocs.org/projects/{{ p['rtd'] }}/badge/?version=stable"></a>
-                    </td>
-                    <td>
-                        <a href="https://readthedocs.org/projects/{{ p['rtd'] }}/builds/"><img
-                                src="https://readthedocs.org/projects/{{ p['rtd'] }}/badge/?version=ltm-1.6"></a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </div>
+                <div class="tab-pane fade" id="details-pane" role="tabpanel" aria-labelledby="details" tabindex="0">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
