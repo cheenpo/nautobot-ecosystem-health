@@ -30,67 +30,38 @@
                 </tr>
             </thead>
             <tbody class="table-striped table-group-divider">
-                {% for app in apps %}
+                {% for p in nautobot_projects %}
                 <tr>
-                    <td>{{ app }}</td>
+                    <td><a href="https://github.com/{{ p['org'] }}/{{ p['repo'] }}"
+                            class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">{{
+                            p['name'] }}</a></td>
                     <td>
                         <a
-                            href="https://github.com/nautobot/nautobot-app-{{ app }}/actions/workflows/upstream_testing.yml">
+                            href="https://github.com/{{ p['org'] }}/{{ p['repo'] }}/actions/workflows/upstream_testing.yml">
                             <img
-                                src="https://github.com/nautobot/nautobot-app-{{ app }}/actions/workflows/upstream_testing.yml/badge.svg">
+                                src="https://github.com/{{ p['org'] }}/{{ p['repo'] }}/actions/workflows/upstream_testing.yml/badge.svg">
                         </a>
                     </td>
-                    <td><img src="https://img.shields.io/pypi/v/nautobot-{{ app }}">
+                    <td><img src="https://img.shields.io/pypi/v/{{ p['pypi'] }}">
                         {# this could be a test if the GH release exists on pypi #}
                     </td>
                     <td><img
-                            src="https://img.shields.io/github/commits-since/nautobot/nautobot-app-{{ app }}/latest/develop">
+                            src="https://img.shields.io/github/commits-since/{{ p['org'] }}/{{ p['repo'] }}/latest/develop">
                     </td>
                     <td><img
-                            src="https://img.shields.io/github/release-date/nautobot/nautobot-app-{{ app }}?display_date=published_at">
+                            src="https://img.shields.io/github/release-date/{{ p['org'] }}/{{ p['repo'] }}?display_date=published_at">
                     </td>
                     <td>
-                        <a href="https://readthedocs.org/projects/nautobot-plugin-{{ app }}/builds/"><img
-                                src="https://readthedocs.org/projects/nautobot-plugin-{{ app }}/badge/?version=latest"></a>
+                        <a href="https://readthedocs.org/projects/{{ p['rtd'] }}/builds/"><img
+                                src="https://readthedocs.org/projects/{{ p['rtd'] }}/badge/?version=latest"></a>
                     </td>
                     <td>
-                        <a href="https://readthedocs.org/projects/nautobot-plugin-{{ app }}/builds/"><img
-                                src="https://readthedocs.org/projects/nautobot-plugin-{{ app }}/badge/?version=stable"></a>
+                        <a href="https://readthedocs.org/projects/{{ p['rtd'] }}/builds/"><img
+                                src="https://readthedocs.org/projects/{{ p['rtd'] }}/badge/?version=stable"></a>
                     </td>
                     <td>
-                        <a href="https://readthedocs.org/projects/nautobot-plugin-{{ app }}/builds/"><img
-                                src="https://readthedocs.org/projects/nautobot-plugin-{{ app }}/badge/?version=ltm-1.6"></a>
-                    </td>
-                </tr>
-                {% endfor %}
-                {% for project in projects %}
-                <tr>
-                    <td>{{ project }}</td>
-                    <td>
-                        <a href="https://github.com/nautobot/{{ project }}/actions/workflows/upstream_testing.yml">
-                            <img
-                                src="https://github.com/nautobot/{{ project }}/actions/workflows/upstream_testing.yml/badge.svg">
-                        </a>
-                    </td>
-                    <td><img src="https://img.shields.io/pypi/v/{{ project }}">
-                        {# this could be a test if the GH release exists on pypi #}
-                    </td>
-                    <td><img src="https://img.shields.io/github/commits-since/nautobot/{{ project }}/latest/develop">
-                    </td>
-                    <td><img
-                            src="https://img.shields.io/github/release-date/nautobot/{{ project }}?display_date=published_at">
-                    </td>
-                    <td>
-                        <a href="https://readthedocs.org/projects/{{ project }}/builds/"><img
-                                src="https://readthedocs.org/projects/{{ project }}/badge/?version=latest"></a>
-                    </td>
-                    <td>
-                        <a href="https://readthedocs.org/projects/{{ project }}/builds/"><img
-                                src="https://readthedocs.org/projects/{{ project }}/badge/?version=stable"></a>
-                    </td>
-                    <td>
-                        <a href="https://readthedocs.org/projects/{{ project }}/builds/"><img
-                                src="https://readthedocs.org/projects/{{ project }}/badge/?version=ltm-1.6"></a>
+                        <a href="https://readthedocs.org/projects/{{ p['rtd'] }}/builds/"><img
+                                src="https://readthedocs.org/projects/{{ p['rtd'] }}/badge/?version=ltm-1.6"></a>
                     </td>
                 </tr>
                 {% endfor %}
