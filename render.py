@@ -4,26 +4,33 @@ from rich import print
 
 import os
 
-yaml = YAML(typ="safe")
-with open("data.yaml") as data_file:
-    data = yaml.load(data_file.read())
 
-print(data)
+def render_pages():
+    yaml = YAML(typ="safe")
+    with open("data.yaml") as data_file:
+        data = yaml.load(data_file.read())
 
-env = Environment(loader=FileSystemLoader("templates"), autoescape=select_autoescape())
+    # print(data)
 
-template = env.get_template("index.html.j2")
+    env = Environment(loader=FileSystemLoader("templates"), autoescape=select_autoescape())
 
-output_path = "output"
+    output_path = "output"
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
 
-if not os.path.exists(output_path):
-    os.makedirs(output_path)
+    pages = {"index.html": {}, "badges.html": {}}
 
-with open(
-    os.path.join(
-        output_path,
-        "index.html",
-    ),
-    "w",
-) as output_file:
-    output_file.write(template.render(data))
+    for page in pages:
+        with open(
+            os.path.join(
+                output_path,
+                page,
+            ),
+            "w",
+        ) as output_file:
+            template = env.get_template(f"{page}.j2")
+            output_file.write(template.render(data))
+
+
+if __name__ == "__main__":
+    render_pages()
