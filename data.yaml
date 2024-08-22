@@ -1,5 +1,5 @@
 ---
-nautobot_projects:
+nautobot:
   - repo: "nautobot-app-bgp-models"
     org: "nautobot"
     name: "BGP Models"
