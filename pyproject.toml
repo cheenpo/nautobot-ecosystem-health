@@ -11,6 +11,8 @@ python = "^3.11"
 jinja2 = "^3.1.4"
 ruamel-yaml = "^0.18.6"
 rich = "^13.7.1"
+requests = "^2.32.3"
+requests-cache = "^1.2.1"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -27,3 +29,30 @@ line-length = 100
 [tool.ruff.format]
 indent-style = "space"
 line-ending = "lf"
+
+[tool.ruff.lint]
+select = [
+    "D",  # pydocstyle
+    "F", "E", "W",  # flake8
+    "S",  # bandit
+    "I",  # isort
+    "PL", # pylint
+]
+ignore = [
+    # warning: `one-blank-line-before-class` (D203) and `no-blank-line-before-class` (D211) are incompatible.
+    "D203",  # 1 blank line required before class docstring
+
+    # D212 is enabled by default in google convention, and complains if we have a docstring like:
+    # """
+    # My docstring is on the line after the opening quotes instead of on the same line as them.
+    # """
+    # We've discussed and concluded that we consider this to be a valid style choice.
+    "D212",  # Multi-line docstring summary should start at the first line
+    "D213",  # Multi-line docstring summary should start at the second line
+
+    # Produces a lot of issues in the current codebase.
+    "E501",  # Line too long
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
