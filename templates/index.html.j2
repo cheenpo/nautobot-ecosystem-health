@@ -52,6 +52,7 @@
                     <th>App Name <i class="bi bi-github"></i></th>
                     <th>Latest Run</th>
                     <th>Streak</th>
+                    <th>Branch</th>
                     <th>Run History (Last 30)</th>
                 </tr>
             </thead>
@@ -80,6 +81,25 @@
                         <div class="{{ 'text-success' if latest_run['conclusion']=='success' else 'text-danger' }}">{{ upstream[p['repo']]['success_streak']['length'] if latest_run['conclusion']=='success' else upstream[p['repo']]['fail_streak']['length']}}</div>
                     </td>
                     <td>
+                        <span class="badge bg-secondary-subtle text-warning">{{ latest_run['head_branch'] }}</span>{#<br>
+                        <span class="badge bg-secondary-subtle text-warning">next</span><br>
+                        <span class="badge bg-secondary-subtle text-warning">ltm-1.6</span> #}
+                    </td>
+                    <td>
+                        {# {% for run in upstream[p['repo']]['runs'] %}
+                        <a href="{{ run['html_url'] }}"
+                            class="link-underline-opacity-0 {{ 'link-success' if run['conclusion']=='success' else 'link-danger' }}">
+                            <i class="bi {{ 'bi-check-circle' if run['conclusion']=='success' else 'bi-x-circle' }}"></i>
+                        </a>
+                        {% endfor %}
+                        <br>
+                        {% for run in upstream[p['repo']]['runs'] %}
+                        <a href="{{ run['html_url'] }}"
+                            class="link-underline-opacity-0 {{ 'link-success' if run['conclusion']=='success' else 'link-danger' }}">
+                            <i class="bi {{ 'bi-check-circle' if run['conclusion']=='success' else 'bi-x-circle' }}"></i>
+                        </a>
+                        {% endfor %}
+                        <br> #}
                         {% for run in upstream[p['repo']]['runs'] %}
                         <a href="{{ run['html_url'] }}"
                             class="link-underline-opacity-0 {{ 'link-success' if run['conclusion']=='success' else 'link-danger' }}">
@@ -91,7 +111,11 @@
                 {% endfor %}
             </tbody>
         </table>
-
+    </div>
+    <div class="container">
+        <footer class="py-3 my-4">
+            <p class="text-center text-body-secondary border-top pt-3 mt-3">Last updated: {{ build_timestamp }}</p>
+        </footer>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

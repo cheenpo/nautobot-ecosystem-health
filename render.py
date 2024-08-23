@@ -1,7 +1,7 @@
 """Generates status pages for the Nautobot Ecosystem."""
 
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 import requests
 import requests_cache
@@ -104,5 +104,9 @@ if __name__ == "__main__":
     if not os.path.exists(OUTPUT_PATH):
         os.makedirs(OUTPUT_PATH)
 
-    _generate_page("index.html", projects=PROJECTS, upstream=upstream_data)
+    build_timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S %Z")
+
+    _generate_page(
+        "index.html", projects=PROJECTS, upstream=upstream_data, build_timestamp=build_timestamp
+    )
     _generate_page("badges.html", projects=PROJECTS)
