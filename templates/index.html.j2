@@ -50,17 +50,43 @@
             <thead>
                 <tr>
                     <th>App Name <i class="bi bi-github"></i></th>
-                    <th>Upstream Testing <i class="bi bi-github"></i></th>
-                    <th>PyPI Version</th>
-                    <th>Commits Since</th>
-                    <th>Release Date</th>
-                    <th>Docs/develop</th>
-                    <th>Docs/main</th>
-                    <th>Docs/ltm-1.6</th>
+                    <th>Latest Run</th>
+                    <th>Streak</th>
+                    <th>Run History</th>
                 </tr>
             </thead>
             <tbody class="table-striped table-group-divider">
-
+                {% for p in projects['nautobot'] %}
+                {% set latest_run = upstream[p['repo']]['runs'][0] %}
+                <tr>
+                    <td><a href="https://github.com/{{ p['org'] }}/{{ p['repo'] }}"
+                            class="link-body-emphasis link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">{{
+                            p['name'] }}</a></td>
+                    <td>
+                        <a href="{{ latest_run['html_url'] }}"
+                            class="link-underline-opacity-0 {{ 'link-success' if latest_run['status']=='completed' else 'link-danger' }}"
+                            data-bs-toggle="tooltip" data-bs-title="Completed?">
+                            <i class="bi bi-c-circle-fill"></i>
+                        </a>
+                        <a href="{{ latest_run['html_url'] }}"
+                            class="link-underline-opacity-0 {{ 'link-success' if latest_run['conclusion']=='success' else 'link-danger' }}">
+                            <i class="bi {{ 'bi-check-circle' if latest_run['conclusion']=='success' else 'bi-x-circle' }}"></i>
+                        </a>
+                        {{ latest_run["updated_at"] }}
+                    </td>
+                    <td>
+                        <div class="{{ 'text-success' if latest_run['conclusion']=='success' else 'text-danger' }}">{{ upstream[p['repo']]['success_streak']['length'] if latest_run['conclusion']=='success' else upstream[p['repo']]['fail_streak']['length']}}</div>
+                    </td>
+                    <td>
+                        {% for run in upstream[p['repo']]['runs'] %}
+                        <a href="{{ run['html_url'] }}"
+                            class="link-underline-opacity-0 {{ 'link-success' if run['conclusion']=='success' else 'link-danger' }}">
+                            <i class="bi {{ 'bi-check-circle' if run['conclusion']=='success' else 'bi-x-circle' }}"></i>
+                        </a>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
 
@@ -68,6 +94,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    </script>
 </body>
 
 </html>

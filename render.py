@@ -30,83 +30,79 @@ def _get_github_api_response(url, token=None):
         return None
 
 
+def _get_run_streak(runs, target_status, opposite_status):
+    streak = {"length": 0, "first_run": None, "last_run": None}
+    for run in runs:
+        if run["conclusion"] == target_status:
+            if streak["last_run"] is None:
+                streak["last_run"] = streak["first_run"] = run
+                streak["length"] = 1
+            else:
+                streak["first_run"] = run
+                streak["length"] += 1
+        if run["conclusion"] == opposite_status and streak["last_run"] is not None:
+            break
+    return streak
+
+
 def get_github_upstream_testing_results(project):  # noqa: PLR0912 too-many-branches
     """Fetch and parse upstream testing workflow results."""
     url = f"https://api.github.com/repos/{project['org']}/{project['repo']}/actions/workflows/upstream_testing.yml/runs"
     runs_data = _get_github_api_response(url)
 
-    print("-" * 20 + project["repo"])
-    for run in runs_data["workflow_runs"]:
-        run_started = datetime.fromisoformat(run["run_started_at"])
-        run_ended = datetime.fromisoformat(run["updated_at"])
+    # print("-" * 20 + project["repo"])
+    # for run in runs_data["workflow_runs"]:
+    #     run_started = datetime.fromisoformat(run["run_started_at"])
+    #     run_ended = datetime.fromisoformat(run["updated_at"])
 
-        # print(f"{run['run_started_at']}/{run['conclusion']}/{run['id']}/{run_ended-run_started}")
+    # print(f"{run['run_started_at']}/{run['conclusion']}/{run['id']}/{run_ended-run_started}")
 
-    # Find the latest successful streak
-    success_streak = {"length": 0, "first_run": None, "last_run": None}
-    for run in runs_data["workflow_runs"]:
-        if run["conclusion"] == "success":
-            if success_streak["last_run"] is None:
-                success_streak["last_run"] = success_streak["first_run"] = run
-                success_streak["length"] = 1
-            else:
-                success_streak["first_run"] = run
-                success_streak["length"] += 1
-        if run["conclusion"] == "failure" and success_streak["last_run"] is not None:
-            break
+    success_streak = _get_run_streak(runs_data["workflow_runs"], "success", "failure")
+    fail_streak = _get_run_streak(runs_data["workflow_runs"], "failure", "success")
 
-    # Find the latest failure streak
-    fail_streak = {"length": 0, "first_run": None, "last_run": None}
-    for run in runs_data["workflow_runs"]:
-        if run["conclusion"] == "failure":
-            if fail_streak["last_run"] is None:
-                fail_streak["last_run"] = fail_streak["first_run"] = run
-                fail_streak["length"] = 1
-            else:
-                fail_streak["first_run"] = run
-                fail_streak["length"] += 1
-        if run["conclusion"] == "success" and fail_streak["last_run"] is not None:
-            break
-
-    if success_streak["length"]:
-        print(
-            f"successful streak: {success_streak['length']} from {success_streak['first_run']['id']} to {success_streak['last_run']['id']}"
-        )
-    if fail_streak["length"]:
-        print(
-            f"failed streak: {fail_streak['length']} from {fail_streak['first_run']['id']} to {fail_streak['last_run']['id']}"
-        )
+    return {
+        "runs": runs_data["workflow_runs"],
+        "success_streak": success_streak,
+        "fail_streak": fail_streak,
+    }
+    # if success_streak["length"]:
+    #     print(
+    #         f"successful streak: {success_streak['length']} from {success_streak['first_run']['id']} to {success_streak['last_run']['id']}"
+    #     )
+    # if fail_streak["length"]:
+    #     print(
+    #         f"failed streak: {fail_streak['length']} from {fail_streak['first_run']['id']} to {fail_streak['last_run']['id']}"
+    #     )
 
 
-def render_pages():
-    """Render all pages to be served."""
-    env = Environment(loader=FileSystemLoader("templates"), autoescape=select_autoescape())
-
-    output_path = "output"
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
-
-    pages = {"index.html": {}, "badges.html": {}}
-
-    for page in pages:
-        with open(
-            os.path.join(
-                output_path,
-                page,
-            ),
-            "w",
-        ) as output_file:
-            template = env.get_template(f"{page}.j2")
-            output_file.write(template.render(projects=PROJECTS))
+def _generate_page(page, **kwargs):
+    """Generates a new file in memory from a Jinja template."""
+    with open(
+        os.path.join(
+            OUTPUT_PATH,
+            page,
+        ),
+        "w",
+    ) as output_file:
+        template = JINJA_ENV.get_template(f"{page}.j2")
+        output_file.write(template.render(**kwargs))
 
 
 PROJECTS = _get_yaml_data("data.yaml")
+JINJA_ENV = Environment(loader=FileSystemLoader("templates"), autoescape=select_autoescape())
+OUTPUT_PATH = "output"
+# Add filesystem based caching of requests API calls (mostly for development)
 REQUESTS_CACHE_PATH = "./.cache"
-requests_cache.install_cache(REQUESTS_CACHE_PATH, backend="filesystem", expire_after=1800)
+requests_cache.install_cache(REQUESTS_CACHE_PATH, backend="filesystem", expire_after=3600)
 
 
 if __name__ == "__main__":
+    upstream_data = {}
     for project in PROJECTS["nautobot"]:
-        get_github_upstream_testing_results(project)
-        # break
-    render_pages()
+        upstream_data[project["repo"]] = get_github_upstream_testing_results(project)
+
+    if not os.path.exists(OUTPUT_PATH):
+        os.makedirs(OUTPUT_PATH)
+
+    _generate_page("index.html", projects=PROJECTS, upstream=upstream_data)
+    _generate_page("badges.html", projects=PROJECTS)
