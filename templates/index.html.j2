@@ -52,7 +52,7 @@
                     <th>App Name <i class="bi bi-github"></i></th>
                     <th>Latest Run</th>
                     <th>Streak</th>
-                    <th>Run History</th>
+                    <th>Run History (Last 30)</th>
                 </tr>
             </thead>
             <tbody class="table-striped table-group-divider">
@@ -72,7 +72,9 @@
                             class="link-underline-opacity-0 {{ 'link-success' if latest_run['conclusion']=='success' else 'link-danger' }}">
                             <i class="bi {{ 'bi-check-circle' if latest_run['conclusion']=='success' else 'bi-x-circle' }}"></i>
                         </a>
-                        {{ latest_run["updated_at"] }}
+                        <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" data-bs-title="{{ latest_run['updated_at'] }}">
+                            <i class="bi bi-clock-history"></i>
+                        </span>
                     </td>
                     <td>
                         <div class="{{ 'text-success' if latest_run['conclusion']=='success' else 'text-danger' }}">{{ upstream[p['repo']]['success_streak']['length'] if latest_run['conclusion']=='success' else upstream[p['repo']]['fail_streak']['length']}}</div>
