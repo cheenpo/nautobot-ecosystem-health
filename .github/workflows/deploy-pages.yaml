@@ -5,6 +5,8 @@ on: # yamllint disable-line
   push:
     branches: ["main"]
   workflow_dispatch:
+  schedule:
+    - cron: "25 5 * * *"
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
