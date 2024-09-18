@@ -84,7 +84,7 @@ def _generate_page(page, **kwargs):
         ),
         "w",
     ) as output_file:
-        template = JINJA_ENV.get_template(f"{page}.j2")
+        template = JINJA_ENV.get_template(f"{page}.jinja")
         output_file.write(template.render(**kwargs))
 
 
@@ -106,7 +106,8 @@ if __name__ == "__main__":
 
     build_timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S %Z")
 
-    _generate_page(
-        "index.html", projects=PROJECTS, upstream=upstream_data, build_timestamp=build_timestamp
-    )
+    _generate_page("index.html", projects=PROJECTS)
     _generate_page("badges.html", projects=PROJECTS)
+    _generate_page(
+        "upstream.html", projects=PROJECTS, upstream=upstream_data, build_timestamp=build_timestamp
+    )

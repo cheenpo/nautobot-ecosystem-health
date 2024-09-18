@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Nautobot Ecosystem Status - Live Badges</title>
+    <title>Nautobot Ecosystem Status</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -32,13 +32,17 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link active" aria-current="page" href="index.html">
                         <i class="bi bi-clock-history text-warning"></i>
                         Status
                     </a>
-                    <a class="nav-link active" aria-current="page" href="badges.html">
+                    <a class="nav-link" href="badges.html">
                         <i class="bi bi-lightning-fill text-success"></i>
                         Live Badges
+                    </a>
+                    <a class="nav-link" href="upstream.html">
+                        <i class="bi bi-arrow-repeat text-primary"></i>
+                        Upstream Testing
                     </a>
                 </div>
             </div>
@@ -50,13 +54,10 @@
             <thead>
                 <tr>
                     <th>App Name <i class="bi bi-github"></i></th>
-                    <th>Upstream Testing <i class="bi bi-github"></i></th>
-                    <th>PyPI Version</th>
-                    <th>Commits Since</th>
-                    <th>Release Date</th>
-                    <th>Docs/develop</th>
-                    <th>Docs/main</th>
-                    <th>Docs/ltm-1.6</th>
+                    <th>Latest Run</th>
+                    <th>Streak</th>
+                    <th>Branch</th>
+                    <th>Run History (Last 30)</th>
                 </tr>
             </thead>
             <tbody class="table-striped table-group-divider">
@@ -65,43 +66,23 @@
                     <td><a href="https://github.com/{{ p['org'] }}/{{ p['repo'] }}"
                             class="link-body-emphasis link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">{{
                             p['name'] }}</a></td>
-                    <td>
-                        <a
-                            href="https://github.com/{{ p['org'] }}/{{ p['repo'] }}/actions/workflows/upstream_testing.yml">
-                            <img
-                                src="https://github.com/{{ p['org'] }}/{{ p['repo'] }}/actions/workflows/upstream_testing.yml/badge.svg">
-                        </a>
-                    </td>
-                    <td><img src="https://img.shields.io/pypi/v/{{ p['pypi'] }}">
-                        {# this could be a test if the GH release exists on pypi #}
-                    </td>
-                    <td><img
-                            src="https://img.shields.io/github/commits-since/{{ p['org'] }}/{{ p['repo'] }}/latest/develop">
-                    </td>
-                    <td><img
-                            src="https://img.shields.io/github/release-date/{{ p['org'] }}/{{ p['repo'] }}?display_date=published_at">
-                    </td>
-                    <td>
-                        <a href="https://readthedocs.org/projects/{{ p['rtd'] }}/builds/"><img
-                                src="https://readthedocs.org/projects/{{ p['rtd'] }}/badge/?version=latest"></a>
-                    </td>
-                    <td>
-                        <a href="https://readthedocs.org/projects/{{ p['rtd'] }}/builds/"><img
-                                src="https://readthedocs.org/projects/{{ p['rtd'] }}/badge/?version=stable"></a>
-                    </td>
-                    <td>
-                        <a href="https://readthedocs.org/projects/{{ p['rtd'] }}/builds/"><img
-                                src="https://readthedocs.org/projects/{{ p['rtd'] }}/badge/?version=ltm-1.6"></a>
-                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-
+    </div>
+    <div class="container">
+        <footer class="py-3 my-4">
+            <p class="text-center text-body-secondary border-top pt-3 mt-3">Last updated: {{ build_timestamp }}</p>
+        </footer>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    </script>
 </body>
 
 </html>
