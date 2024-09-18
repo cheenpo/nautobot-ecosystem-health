@@ -43,7 +43,7 @@ nautobot:
   - repo: "nautobot-app-design-builder"
     org: "nautobot"
     name: "Design Builder"
-    rtd: "nautobot-plugin-design-builder"
+    rtd: "nautobot-app-design-builder"
     pypi: "nautobot-design-builder"
   - repo: "nautobot-app-firewall-models"
     org: "nautobot"

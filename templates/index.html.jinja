@@ -54,10 +54,10 @@
             <thead>
                 <tr>
                     <th>App Name <i class="bi bi-github"></i></th>
-                    <th>Latest Run</th>
-                    <th>Streak</th>
-                    <th>Branch</th>
-                    <th>Run History (Last 30)</th>
+                    <th>Latest Release</th>
+                    <th>Date</th>
+                    <th>Nautobot</th>
+                    <th>Python</th>
                 </tr>
             </thead>
             <tbody class="table-striped table-group-divider">
@@ -66,6 +66,10 @@
                     <td><a href="https://github.com/{{ p['org'] }}/{{ p['repo'] }}"
                             class="link-body-emphasis link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">{{
                             p['name'] }}</a></td>
+                    <td>{{ pypi[p['repo']]['latest']['version'] }}</td>
+                    <td class="text-{{ pypi[p['repo']]['latest']['date_color'] }}">{{ pypi[p['repo']]['latest']['date'] }}</td>
+                    <td>{{ pypi[p['repo']]['latest']['requires_nautobot'] }}</td>
+                    <td>{{ pypi[p['repo']]['latest']['requires_python'] }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
