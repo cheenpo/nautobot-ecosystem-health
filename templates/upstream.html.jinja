@@ -110,7 +110,7 @@
                         {% for run in upstream[p['repo']]['runs'] %}
                         <a href="{{ run['html_url'] }}"
                             class="link-underline-opacity-0 {{ 'link-success' if run['conclusion']=='success' else 'link-danger' }}">
-                            <i class="bi {{ 'bi-check-circle' if run['conclusion']=='success' else 'bi-x-circle' }}"></i>
+                            <i class="bi {{ 'bi-check-circle-fill' if run['conclusion']=='success' else 'bi-x-circle' }}"></i>
                         </a>
                         {% endfor %}
                     </td>
