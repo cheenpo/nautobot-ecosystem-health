@@ -60,7 +60,7 @@
                     <th>Latest Run</th>
                     <th>Streak</th>
                     <th>Branch</th>
-                    <th>Run History (Last 30)</th>
+                    <th>Run History (Last 30, Latest/Left to Oldest/Right)</th>
                 </tr>
             </thead>
             <tbody class="table-striped table-group-divider">
@@ -78,7 +78,7 @@
                         </a>
                         <a href="{{ latest_run['html_url'] }}"
                             class="link-underline-opacity-0 {{ 'link-success' if latest_run['conclusion']=='success' else 'link-danger' }}">
-                            <i class="bi {{ 'bi-check-circle' if latest_run['conclusion']=='success' else 'bi-x-circle' }}"></i>
+                            <i class="bi {{ 'bi-check-circle-fill' if latest_run['conclusion']=='success' else 'bi-x-circle' }}"></i>
                         </a>
                         <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" data-bs-title="{{ latest_run['updated_at'] }}">
                             <i class="bi bi-clock-history"></i>
