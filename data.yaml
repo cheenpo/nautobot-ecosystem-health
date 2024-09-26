@@ -28,7 +28,7 @@ nautobot:
   - repo: "nautobot-app-dev-example"
     org: "nautobot"
     name: "Dev Example"
-    rtd: "nautobot-plugin-dev-example"
+    rtd: "nautobot-app-dev-example"
     pypi: "nautobot-dev-example"
   - repo: "nautobot-app-device-lifecycle-mgmt"
     org: "nautobot"

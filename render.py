@@ -114,9 +114,9 @@ def get_pypi_data(project):
     }
 
     release_date = datetime.fromisoformat(pypi_raw_data["urls"][0]["upload_time"])
-    if datetime.now() - release_date > timedelta(weeks=12):
+    if datetime.now() - release_date > timedelta(weeks=16):
         pypi_data["latest"]["date_color"] = "danger"
-    elif datetime.now() - release_date > timedelta(weeks=6):
+    elif datetime.now() - release_date > timedelta(weeks=8):
         pypi_data["latest"]["date_color"] = "warning"
     else:
         pypi_data["latest"]["date_color"] = "success"
