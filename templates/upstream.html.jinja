@@ -57,57 +57,50 @@
             <thead>
                 <tr>
                     <th>App Name <i class="bi bi-github"></i></th>
-                    <th>Latest Run</th>
+                    <th>develop</i></th>
+                    <th>ltm-1.6</i></th>
+                    <th><i class="bi bi-clock-history"></i></th>
+                    <th>Workflow Run History (Last 30, Latest/Left to Oldest/Right)</th>
                     <th>Streak</th>
-                    <th>Branch</th>
-                    <th>Run History (Last 30, Latest/Left to Oldest/Right)</th>
                 </tr>
             </thead>
             <tbody class="table-striped table-group-divider">
                 {% for p in projects['nautobot'] if upstream[p['repo']]['runs'] %}
                 {% set latest_run = upstream[p['repo']]['runs'][0] %}
+                {% set latest_run_jobs = upstream[p['repo']]['latest_run_jobs'] %}
                 <tr>
                     <td><a href="https://github.com/{{ p['org'] }}/{{ p['repo'] }}"
                             class="link-body-emphasis link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">{{
                             p['name'] }}</a></td>
                     <td>
-                        <a href="{{ latest_run['html_url'] }}"
-                            class="link-underline-opacity-0 {{ 'link-success' if latest_run['conclusion']=='success' else 'link-danger' }}">
-                            <i class="bi {{ 'bi-check-circle-fill' if latest_run['conclusion']=='success' else 'bi-x-circle' }}"></i>
+                        {% for job in latest_run_jobs if 'develop' in job['name'] %}
+                        <a href="{{ job['html_url'] }}" data-bs-toggle="tooltip" data-bs-title="{{ job['name'] }}"
+                            class="link-underline-opacity-0 {{ 'link-success' if job['conclusion']=='success' else 'link-danger' }}">
+                            <i class="bi {{ 'bi-check-square-fill' if job['conclusion']=='success' else 'bi-x-square' }}"></i>
                         </a>
-                        <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" data-bs-title="{{ latest_run['updated_at'] }}">
-                            <i class="bi bi-clock-history"></i>
-                        </span>
+                        {% endfor%}
                     </td>
                     <td>
-                        <div class="{{ 'text-success' if latest_run['conclusion']=='success' else 'text-danger' }}">{{ upstream[p['repo']]['success_streak']['length'] if latest_run['conclusion']=='success' else upstream[p['repo']]['fail_streak']['length']}}</div>
-                    </td>
-                    <td>
-                        <span class="badge bg-secondary-subtle text-warning">{#{{ latest_run['head_branch'] }}#}develop+ltm-1.6</span>{#<br>
-                        <span class="badge bg-secondary-subtle text-warning">next</span><br>
-                        <span class="badge bg-secondary-subtle text-warning">ltm-1.6</span> #}
-                    </td>
-                    <td>
-                        {# {% for run in upstream[p['repo']]['runs'] %}
-                        <a href="{{ run['html_url'] }}"
-                            class="link-underline-opacity-0 {{ 'link-success' if run['conclusion']=='success' else 'link-danger' }}">
-                            <i class="bi {{ 'bi-check-circle' if run['conclusion']=='success' else 'bi-x-circle' }}"></i>
+                        {% for job in latest_run_jobs if 'ltm-1.6' in job['name'] %}
+                        <a href="{{ job['html_url'] }}" data-bs-toggle="tooltip" data-bs-title="{{ job['name'] }}"
+                            class="link-underline-opacity-0 {{ 'link-success' if job['conclusion']=='success' else 'link-danger' }}">
+                            <i class="bi {{ 'bi-check-square-fill' if job['conclusion']=='success' else 'bi-x-square' }}"></i>
                         </a>
-                        {% endfor %}
-                        <br>
+                        {% endfor%}
+                    </td>
+                    <td class="font-monospace">
+                        {{ latest_run['updated_at'] | replace('T', ' ') | replace('Z', ' UTC') }}
+                    </td>
+                    <td>
                         {% for run in upstream[p['repo']]['runs'] %}
-                        <a href="{{ run['html_url'] }}"
-                            class="link-underline-opacity-0 {{ 'link-success' if run['conclusion']=='success' else 'link-danger' }}">
-                            <i class="bi {{ 'bi-check-circle' if run['conclusion']=='success' else 'bi-x-circle' }}"></i>
-                        </a>
-                        {% endfor %}
-                        <br> #}
-                        {% for run in upstream[p['repo']]['runs'] %}
-                        <a href="{{ run['html_url'] }}"
+                        <a href="{{ run['html_url'] }}" data-bs-toggle="tooltip" data-bs-title="{{ run['updated_at'] }}"
                             class="link-underline-opacity-0 {{ 'link-success' if run['conclusion']=='success' else 'link-danger' }}">
                             <i class="bi {{ 'bi-check-circle-fill' if run['conclusion']=='success' else 'bi-x-circle' }}"></i>
                         </a>
                         {% endfor %}
+                    </td>
+                    <td class="font-monospace">
+                        <div class="{{ 'text-success' if latest_run['conclusion']=='success' else 'text-danger' }}">{{ upstream[p['repo']]['success_streak']['length'] if latest_run['conclusion']=='success' else upstream[p['repo']]['fail_streak']['length']}}</div>
                     </td>
                 </tr>
                 {% endfor %}

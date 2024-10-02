@@ -2,12 +2,11 @@
 
 import os
 import re
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 
 import requests
 import requests_cache
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from rich.pretty import pprint as print
 from ruamel.yaml import YAML
 
 
@@ -76,7 +75,8 @@ def get_github_upstream_testing_results(project):  # noqa: PLR0912 too-many-bran
     url = f"https://api.github.com/repos/{project['org']}/{project['repo']}/actions/workflows/upstream_testing.yml/runs"
     runs_data = _get_github_api_response(url)
 
-    # TODO: get jobs_url from the workflow runs and add the individual jobs status to the table
+    if runs_data is not None:
+        latest_run_jobs = _get_github_api_response(runs_data["workflow_runs"][0]["jobs_url"])
 
     # print("-" * 20 + project["repo"])
     # for run in runs_data["workflow_runs"]:
@@ -96,6 +96,7 @@ def get_github_upstream_testing_results(project):  # noqa: PLR0912 too-many-bran
         "runs": runs_data["workflow_runs"] if runs_data else None,
         "success_streak": success_streak,
         "fail_streak": fail_streak,
+        "latest_run_jobs": latest_run_jobs["jobs"] if runs_data else None,
     }
     # if success_streak["length"]:
     #     print(
