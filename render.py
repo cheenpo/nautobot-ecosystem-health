@@ -76,6 +76,8 @@ def get_github_upstream_testing_results(project):  # noqa: PLR0912 too-many-bran
     url = f"https://api.github.com/repos/{project['org']}/{project['repo']}/actions/workflows/upstream_testing.yml/runs"
     runs_data = _get_github_api_response(url)
 
+    # TODO: get jobs_url from the workflow runs and add the individual jobs status to the table
+
     # print("-" * 20 + project["repo"])
     # for run in runs_data["workflow_runs"]:
     #     run_started = datetime.fromisoformat(run["run_started_at"])
@@ -83,11 +85,15 @@ def get_github_upstream_testing_results(project):  # noqa: PLR0912 too-many-bran
 
     # print(f"{run['run_started_at']}/{run['conclusion']}/{run['id']}/{run_ended-run_started}")
 
-    success_streak = _get_run_streak(runs_data["workflow_runs"], "success", "failure")
-    fail_streak = _get_run_streak(runs_data["workflow_runs"], "failure", "success")
+    success_streak = (
+        _get_run_streak(runs_data["workflow_runs"], "success", "failure") if runs_data else 0
+    )
+    fail_streak = (
+        _get_run_streak(runs_data["workflow_runs"], "failure", "success") if runs_data else 0
+    )
 
     return {
-        "runs": runs_data["workflow_runs"],
+        "runs": runs_data["workflow_runs"] if runs_data else None,
         "success_streak": success_streak,
         "fail_streak": fail_streak,
     }

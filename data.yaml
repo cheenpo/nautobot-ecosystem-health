@@ -91,6 +91,11 @@ nautobot:
     name: "pynautobot"
     rtd: "pynautobot"
     pypi: "pynautobot"
+  - repo: "nautobot"
+    org: "nautobot"
+    name: "Nautobot"
+    rtd: "nautobot"
+    pypi: "nautobot"
 
 other:
   # - "nornir-nautobot"
