@@ -61,7 +61,6 @@
                     <th>ltm-1.6</i></th>
                     <th><i class="bi bi-clock-history"></i></th>
                     <th>Workflow Run History (Last 30, Latest/Left to Oldest/Right)</th>
-                    <th>Streak</th>
                 </tr>
             </thead>
             <tbody class="table-striped table-group-divider">
@@ -98,9 +97,6 @@
                             <i class="bi {{ 'bi-check-circle-fill' if run['conclusion']=='success' else 'bi-x-circle' }}"></i>
                         </a>
                         {% endfor %}
-                    </td>
-                    <td class="font-monospace">
-                        <div class="{{ 'text-success' if latest_run['conclusion']=='success' else 'text-danger' }}">{{ upstream[p['repo']]['success_streak']['length'] if latest_run['conclusion']=='success' else upstream[p['repo']]['fail_streak']['length']}}</div>
                     </td>
                 </tr>
                 {% endfor %}
