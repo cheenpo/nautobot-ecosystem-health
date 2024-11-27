@@ -36,7 +36,12 @@ if __name__ == "__main__":
         pypi=pypi_data,
         build_timestamp=build_timestamp,
     )
-    utils.generate_page("badges.html", JINJA_ENV, OUTPUT_PATH, projects=PROJECTS)
+    utils.generate_page(
+        "badges.html",
+        JINJA_ENV,
+        OUTPUT_PATH,
+        projects=PROJECTS,
+    )
     utils.generate_page(
         "upstream.html",
         JINJA_ENV,
