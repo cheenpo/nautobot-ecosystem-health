@@ -30,6 +30,12 @@ jobs:
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v4"
+      - name: "Get Requests Cache"
+        id: cache
+        uses: "actions/cache@v4"
+        with:
+          path: ".cache"
+          key: "requests-cache"
       # Build HTML
       - name: "Set up Python"
         uses: "actions/setup-python@v5"

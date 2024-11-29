@@ -1,11 +1,24 @@
 """Utility functions for usage in fetching data and rendering pages."""
 
+import logging
 import os
 import re
 from datetime import datetime, timedelta
 
 import requests
+from rich.logging import RichHandler
 from ruamel.yaml import YAML
+
+DEBUG = os.getenv("DEBUG") is not None
+
+logging.basicConfig(
+    level="DEBUG" if DEBUG else "INFO",
+    format="%(message)s",
+    datefmt="[%Y-%m-%d %H:%M:%S %Z]",
+    handlers=[RichHandler(rich_tracebacks=True)],
+)
+
+log = logging.getLogger("neh")
 
 
 def generate_page(page, jinja_env, output_path, **kwargs):
@@ -41,8 +54,13 @@ def _get_github_api_response(url, token=None):
     resp = requests.get(url, headers=headers, timeout=10)
 
     if resp.ok:
+        if DEBUG:
+            log.debug(
+                f"Cached({resp.from_cache}) Expires({resp.expires.strftime('%Y-%m-%d %H:%M:%S %Z')}) {url}"
+            )
         return resp.json()
     else:
+        log.error(f"{resp.status_code} {url}")
         return None
 
 
@@ -70,8 +88,13 @@ def _get_pypi_api_response(project):
     resp = requests.get(url, headers=headers, timeout=10)
 
     if resp.ok:
+        if DEBUG:
+            log.debug(
+                f"Cached({resp.from_cache}) Expires({resp.expires.strftime('%Y-%m-%d %H:%M:%S %Z')}) {url}"
+            )
         return resp.json()
     else:
+        log.error(f"{resp.status_code} {url}")
         return None
 
 
