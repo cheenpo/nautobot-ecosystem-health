@@ -3,7 +3,7 @@
 import logging
 import os
 import re
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import requests
 from rich.logging import RichHandler
@@ -71,6 +71,11 @@ def get_github_upstream_testing_results(project):
 
     if runs_data is not None:
         latest_run_jobs = _get_github_api_response(runs_data["workflow_runs"][0]["jobs_url"])
+
+        # Highlight if workflow didn't run for more than 3 days
+        latest_run_date = datetime.fromisoformat(runs_data["workflow_runs"][0]["updated_at"])
+        if datetime.now(timezone.utc) - latest_run_date > timedelta(days=3):
+            runs_data["workflow_runs"][0]["updated_at_color"] = "text-danger"
 
     return {
         "runs": runs_data["workflow_runs"] if runs_data else None,

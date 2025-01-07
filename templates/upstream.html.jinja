@@ -87,7 +87,7 @@
                         </a>
                         {% endfor%}
                     </td>
-                    <td class="font-monospace">
+                    <td class="font-monospace {{ latest_run['updated_at_color'] if latest_run['updated_at_color'] }}">
                         {{ latest_run['updated_at'] | replace('T', ' ') | replace('Z', ' UTC') }}
                     </td>
                     <td>
