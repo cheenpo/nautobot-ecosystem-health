@@ -19,6 +19,7 @@ pages:
     - "nautobot-ssot"
     - "nautobot-welcome-wizard"
     - "pynautobot"
+    - "nornir-nautobot"
     - "nautobot"
   badges.nautobot:
     - "nautobot-bgp-models"
@@ -39,6 +40,7 @@ pages:
     - "nautobot-ssot"
     - "nautobot-welcome-wizard"
     - "pynautobot"
+    - "nornir-nautobot"
     - "nautobot"
   badges.ntc:
     - "pyntc"
@@ -185,7 +187,13 @@ metadata:
     name: "Nautobot Ansible"
     rtd: "nautobot-ansible"
     pypi: ""
-  # - "nornir-nautobot"
+  nornir-nautobot:
+    repo: "nornir-nautobot"
+    org: "nautobot"
+    name: "Nornir Nautobot"
+    rtd: "nornir-nautobot"
+    pypi: "nornir-nautobot"
   # NTC OTHER
+
 
 # pyntc, diffsync, jdiff, netutils, circuit-maintenance-parser, schema-enforcer, ntc-templates
