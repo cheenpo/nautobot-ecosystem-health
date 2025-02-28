@@ -64,13 +64,15 @@
                 </tr>
             </thead>
             <tbody class="table-striped table-group-divider">
-                {% for p in projects['nautobot'] if upstream[p['repo']]['runs'] %}
-                {% set latest_run = upstream[p['repo']]['runs'][0] %}
-                {% set latest_run_jobs = upstream[p['repo']]['latest_run_jobs'] %}
+                {# {% for p in projects['nautobot'] if upstream[p['repo']]['runs'] %} #}
+                {% for p in pages['upstream'] %}
+                {% set meta = metadata[p] %}
+                {% set latest_run = upstream[meta['repo']]['runs'][0] %}
+                {% set latest_run_jobs = upstream[meta['repo']]['latest_run_jobs'] %}
                 <tr>
-                    <td><a href="https://github.com/{{ p['org'] }}/{{ p['repo'] }}"
+                    <td><a href="https://github.com/{{ meta['org'] }}/{{ meta['repo'] }}"
                             class="link-body-emphasis link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">{{
-                            p['name'] }}</a></td>
+                            meta['name'] }}</a></td>
                     <td>
                         {% for job in latest_run_jobs if 'develop' in job['name'] %}
                         <a href="{{ job['html_url'] }}" data-bs-toggle="tooltip" data-bs-title="{{ job['name'] }}"
@@ -91,7 +93,7 @@
                         {{ latest_run['updated_at'] | replace('T', ' ') | replace('Z', ' UTC') }}
                     </td>
                     <td>
-                        {% for run in upstream[p['repo']]['runs'] %}
+                        {% for run in upstream[meta['repo']]['runs'] %}
                         <a href="{{ run['html_url'] }}" data-bs-toggle="tooltip" data-bs-title="{{ run['updated_at'] }}"
                             class="link-underline-opacity-0 {{ 'link-success' if run['conclusion']=='success' else 'link-danger' }}">
                             <i class="bi {{ 'bi-check-circle-fill' if run['conclusion']=='success' else 'bi-x-circle' }}"></i>

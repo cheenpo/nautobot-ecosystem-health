@@ -16,7 +16,7 @@ from utils import (
 
 # GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 
-PROJECTS = get_yaml_data("data.yaml")
+DATA = get_yaml_data("data.yaml")
 JINJA_ENV = Environment(loader=FileSystemLoader("templates"), autoescape=select_autoescape())
 OUTPUT_PATH = "output"
 # Add filesystem based caching of requests API calls (mostly for development)
@@ -39,10 +39,12 @@ if __name__ == "__main__":
 
     upstream_data = {}
     pypi_data = {}
-    for project in PROJECTS["nautobot"]:
-        log.info(f"Fetching API data for {project['repo']} ...")
-        upstream_data[project["repo"]] = get_github_upstream_testing_results(project)
-        pypi_data[project["repo"]] = get_pypi_data(project)
+    for name, data in DATA["metadata"].items():
+        log.info(f"Fetching API data for {data['repo']} ...")
+        if name in DATA["pages"]["upstream"]:
+            upstream_data[data["repo"]] = get_github_upstream_testing_results(data)
+        if data.get("pypi"):
+            pypi_data[data["repo"]] = get_pypi_data(data)
 
     if not os.path.exists(OUTPUT_PATH):
         os.makedirs(OUTPUT_PATH)
@@ -52,9 +54,9 @@ if __name__ == "__main__":
         "index.html",
         JINJA_ENV,
         OUTPUT_PATH,
-        projects=PROJECTS,
         pypi=pypi_data,
         build_timestamp=build_timestamp,
+        **DATA
     )
 
     log.info("Generating badges.html ...")
@@ -62,7 +64,7 @@ if __name__ == "__main__":
         "badges.html",
         JINJA_ENV,
         OUTPUT_PATH,
-        projects=PROJECTS,
+        **DATA
     )
 
     log.info("Generating upstream.html ...")
@@ -70,9 +72,9 @@ if __name__ == "__main__":
         "upstream.html",
         JINJA_ENV,
         OUTPUT_PATH,
-        projects=PROJECTS,
         upstream=upstream_data,
         build_timestamp=build_timestamp,
+        **DATA
     )
 
     log.info(f"Build finished in: {datetime.now(timezone.utc) - build_start}")

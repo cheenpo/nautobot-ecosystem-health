@@ -67,38 +67,39 @@
                 </tr>
             </thead>
             <tbody class="table-striped table-group-divider">
-                {% for p in projects['nautobot'] %}
+                {% for p in pages['badges.nautobot'] %}
+                {% set meta = metadata[p] %}
                 <tr>
-                    <td><a href="https://github.com/{{ p['org'] }}/{{ p['repo'] }}"
+                    <td><a href="https://github.com/{{ meta['org'] }}/{{ meta['repo'] }}"
                             class="link-body-emphasis link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">{{
-                            p['name'] }}</a></td>
+                            meta['name'] }}</a></td>
                     {# <td>
                         <a
-                            href="https://github.com/{{ p['org'] }}/{{ p['repo'] }}/actions/workflows/upstream_testing.yml">
+                            href="https://github.com/{{ meta['org'] }}/{{ meta['repo'] }}/actions/workflows/upstream_testing.yml">
                             <img
-                                src="https://github.com/{{ p['org'] }}/{{ p['repo'] }}/actions/workflows/upstream_testing.yml/badge.svg">
+                                src="https://github.com/{{ meta['org'] }}/{{ meta['repo'] }}/actions/workflows/upstream_testing.yml/badge.svg">
                         </a>
                     </td> #}
-                    <td><img src="https://img.shields.io/pypi/v/{{ p['pypi'] }}">
+                    <td><img src="https://img.shields.io/pypi/v/{{ meta['pypi'] }}">
                         {# this could be a test if the GH release exists on pypi #}
                     </td>
                     <td><img
-                            src="https://img.shields.io/github/commits-since/{{ p['org'] }}/{{ p['repo'] }}/latest/develop">
+                            src="https://img.shields.io/github/commits-since/{{ meta['org'] }}/{{ meta['repo'] }}/latest/develop">
                     </td>
                     <td><img
-                            src="https://img.shields.io/github/release-date/{{ p['org'] }}/{{ p['repo'] }}?display_date=published_at">
+                            src="https://img.shields.io/github/release-date/{{ meta['org'] }}/{{ meta['repo'] }}?display_date=published_at">
                     </td>
                     <td>
-                        <a href="https://readthedocs.org/projects/{{ p['rtd'] }}/builds/"><img
-                                src="https://readthedocs.org/projects/{{ p['rtd'] }}/badge/?version=latest"></a>
+                        <a href="https://readthedocs.org/projects/{{ meta['rtd'] }}/builds/"><img
+                                src="https://readthedocs.org/projects/{{ meta['rtd'] }}/badge/?version=latest"></a>
                     </td>
                     <td>
-                        <a href="https://readthedocs.org/projects/{{ p['rtd'] }}/builds/"><img
-                                src="https://readthedocs.org/projects/{{ p['rtd'] }}/badge/?version=stable"></a>
+                        <a href="https://readthedocs.org/projects/{{ meta['rtd'] }}/builds/"><img
+                                src="https://readthedocs.org/projects/{{ meta['rtd'] }}/badge/?version=stable"></a>
                     </td>
                     <td>
-                        <a href="https://readthedocs.org/projects/{{ p['rtd'] }}/builds/"><img
-                                src="https://readthedocs.org/projects/{{ p['rtd'] }}/badge/?version=ltm-1.6"></a>
+                        <a href="https://readthedocs.org/projects/{{ meta['rtd'] }}/builds/"><img
+                                src="https://readthedocs.org/projects/{{ meta['rtd'] }}/badge/?version=ltm-1.6"></a>
                     </td>
                 </tr>
                 {% endfor %}

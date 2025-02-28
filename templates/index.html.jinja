@@ -64,15 +64,17 @@
                 </tr>
             </thead>
             <tbody class="table-striped table-group-divider">
-                {% for p in projects['nautobot'] %}
+                {% for p in pages['status.nautobot'] %}
+                {% set repo = metadata[p]['repo'] %}
+                {% set name = metadata[p]['name'] %}
                 <tr>
                     <td><a href="https://github.com/{{ p['org'] }}/{{ p['repo'] }}"
                             class="link-body-emphasis link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">{{
-                            p['name'] }}</a></td>
-                    <td class="font-monospace">{{ pypi[p['repo']]['latest']['version'] }}</td>
-                    <td class="font-monospace text-{{ pypi[p['repo']]['latest']['date_color'] }}">{{ pypi[p['repo']]['latest']['date'] }}</td>
-                    <td class="font-monospace">{{ pypi[p['repo']]['latest']['requires_nautobot'] }}</td>
-                    <td class="font-monospace">{{ pypi[p['repo']]['latest']['requires_python'] }}</td>
+                            name }}</a></td>
+                    <td class="font-monospace">{{ pypi[repo]['latest']['version'] }}</td>
+                    <td class="font-monospace text-{{ pypi[repo]['latest']['date_color'] }}">{{ pypi[repo]['latest']['date'] }}</td>
+                    <td class="font-monospace">{{ pypi[repo]['latest']['requires_nautobot'] }}</td>
+                    <td class="font-monospace">{{ pypi[repo]['latest']['requires_python'] }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
