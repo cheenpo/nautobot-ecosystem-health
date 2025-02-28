@@ -59,9 +59,17 @@ if __name__ == "__main__":
         **DATA
     )
 
-    log.info("Generating badges.html ...")
+    log.info("Generating badges-nautobot.html ...")
     generate_page(
-        "badges.html",
+        "badges-nautobot.html",
+        JINJA_ENV,
+        OUTPUT_PATH,
+        **DATA
+    )
+
+    log.info("Generating badges-ntc.html ...")
+    generate_page(
+        "badges-ntc.html",
         JINJA_ENV,
         OUTPUT_PATH,
         **DATA

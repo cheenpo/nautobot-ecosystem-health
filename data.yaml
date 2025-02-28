@@ -44,6 +44,13 @@ pages:
     - "nautobot"
   badges.ntc:
     - "pyntc"
+    - "nornir-pyntc"
+    - "diffsync"
+    - "jdiff"
+    - "netutils"
+    - "circuit-maintenance-parser"
+    - "schema-enforcer"
+    - "ntc-templates"
   upstream:
     - "nautobot-bgp-models"
     - "nautobot-capacity-metrics"
@@ -194,6 +201,51 @@ metadata:
     rtd: "nornir-nautobot"
     pypi: "nornir-nautobot"
   # NTC OTHER
-
-
-# pyntc, diffsync, jdiff, netutils, circuit-maintenance-parser, schema-enforcer, ntc-templates
+  pyntc:
+    repo: "pyntc"
+    org: "networktocode"
+    name: "Pyntc"
+    rtd: "pyntc"
+    pypi: "pyntc"
+  nornir-pyntc:
+    repo: "nornir-pyntc"
+    org: "networktocode"
+    name: "Nornir Pyntc"
+    rtd: "nornir-pyntc"
+    pypi: "nornir-pyntc"
+  diffsync:
+    repo: "diffsync"
+    org: "networktocode"
+    name: "DiffSync"
+    rtd: "diffsync"
+    pypi: "diffsync"
+  jdiff:
+    repo: "jdiff"
+    org: "networktocode"
+    name: "Jdiff"
+    rtd: "jdiff"
+    pypi: "jdiff"
+  netutils:
+    repo: "netutils"
+    org: "networktocode"
+    name: "Netutils"
+    rtd: "netutils"
+    pypi: "netutils"
+  circuit-maintenance-parser:
+    repo: "circuit-maintenance-parser"
+    org: "networktocode"
+    name: "Circuit Maintenance Parser"
+    rtd: "circuit-maintenance-parser"
+    pypi: "circuit-maintenance-parser"
+  schema-enforcer:
+    repo: "schema-enforcer"
+    org: "networktocode"
+    name: "Schema Enforcer"
+    rtd: "schema-enforcer"
+    pypi: "schema-enforcer"
+  ntc-templates:
+    repo: "ntc-templates"
+    org: "networktocode"
+    name: "NTC Templates"
+    rtd: "ntc-templates"
+    pypi: "ntc-templates"
