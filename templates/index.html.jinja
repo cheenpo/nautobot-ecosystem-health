@@ -60,8 +60,15 @@
         <table class="table table-sm table-hover">
             <thead>
                 <tr>
+                    <th class="border-bottom-0"></th>
+                    <th class="border-bottom-0" colspan="3">Latest Release</th>
+                    <th class="border-bottom-0"></th>
+                    <th class="border-bottom-0"></th>
+                </tr>
+                <tr>
                     <th>App Name <i class="bi bi-github"></i></th>
-                    <th>Latest PyPI Release</th>
+                    <th>GitHub</th>
+                    <th>PyPI</th>
                     <th>Date</th>
                     <th>Nautobot</th>
                     <th>Python</th>
@@ -70,11 +77,15 @@
             <tbody class="table-striped table-group-divider">
                 {% for p in pages['status.nautobot'] %}
                 {% set meta = metadata[p] %}
+                {% set github_release = gh_releases[meta['repo']]['tag_name'] %}
+                {% set pypi_release = pypi[meta['repo']]['latest']['version'] %}
+                {% set release_style = "dark-emphasis" if pypi_release in github_release else "danger" %}
                 <tr>
                     <td><a href="https://github.com/{{ meta['org'] }}/{{ meta['repo'] }}"
                             class="link-body-emphasis link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">{{
                             meta['name'] }}</a></td>
-                    <td class="font-monospace">{{ pypi[meta['repo']]['latest']['version'] }}</td>
+                    <td class="font-monospace text-{{ release_style }}">{{ github_release }}</td>
+                    <td class="font-monospace text-{{ release_style }}">{{ pypi_release }}</td>
                     <td class="font-monospace text-{{ pypi[meta['repo']]['latest']['date_color'] }}">{{ pypi[meta['repo']]['latest']['date'] }}</td>
                     <td class="font-monospace">{{ pypi[meta['repo']]['latest']['requires_nautobot'] }}</td>
                     <td class="font-monospace">{{ pypi[meta['repo']]['latest']['requires_python'] }}</td>
