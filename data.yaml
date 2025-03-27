@@ -10,6 +10,7 @@ pages:
     - "nautobot-device-lifecycle-mgmt"
     - "nautobot-device-onboarding"
     - "nautobot-design-builder"
+    - "nautobot-dns-models"
     - "nautobot-firewall-models"
     - "nautobot-floor-plan"
     - "nautobot-golden-config"
@@ -31,6 +32,7 @@ pages:
     - "nautobot-device-lifecycle-mgmt"
     - "nautobot-device-onboarding"
     - "nautobot-design-builder"
+    - "nautobot-dns-models"
     - "nautobot-firewall-models"
     - "nautobot-floor-plan"
     - "nautobot-golden-config"
@@ -61,6 +63,7 @@ pages:
     - "nautobot-device-lifecycle-mgmt"
     - "nautobot-device-onboarding"
     - "nautobot-design-builder"
+    - "nautobot-dns-models"
     - "nautobot-firewall-models"
     - "nautobot-floor-plan"
     - "nautobot-golden-config"
@@ -175,6 +178,12 @@ metadata:
     name: "Welcome Wizard"
     rtd: "nautobot-plugin-welcome-wizard"
     pypi: "nautobot-welcome-wizard"
+  nautobot-dns-models:
+    repo: "nautobot-app-dns-models"
+    org: "nautobot"
+    name: "DNS Models"
+    rtd: "nautobot-app-dns-models"
+    pypi: "nautobot-dns-models"
   # NAUTOBOT OTHER
   pynautobot:
     repo: "pynautobot"
